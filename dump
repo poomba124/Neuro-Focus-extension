@@ -1,0 +1,20 @@
+/* Background & text styling */
+body {
+  background: #fdf6e3 !important;
+  color: #333 !important;
+  font-family: Arial, sans-serif !important;
+  line-height: 1.6 !important;
+}
+
+/* Remove ads/clutter — safer so headlines remain */
+nav, header, footer, aside, .ads, .ad-banner, .sponsor, .promotions,
+div[id^="ad-"], div[class^="ad-"] {
+  display: none !important;
+}
+
+/* Keep headlines visible and bold */
+h1, h2, h3, h4, h5, h6 {
+  display: block !important;
+  font-weight: bold !important;
+  color: #000 !important;
+}

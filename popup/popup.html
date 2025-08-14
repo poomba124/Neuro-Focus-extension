@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body {
+      width: 340px;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 18px;
+      color: #333;
+      margin: 0;
+    }
+
+    .header p {
+      font-size: 12px;
+      color: #666;
+      margin: 5px 0 0 0;
+    }
+
+    .control-group {
+      margin-bottom: 15px;
+      padding: 15px;
+      background: white;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .control-label {
+      font-weight: bold;
+      margin-bottom: 8px;
+      display: block;
+      color: #333;
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: #2196F3;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .reading-mode-btn, .ruler-btn, .restore-btn {
+      width: 100%;
+      padding: 12px;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      margin-bottom: 10px;
+    }
+
+    .reading-mode-btn {
+      background: #4CAF50;
+    }
+
+    .reading-mode-btn:hover {
+      background: #45a049;
+    }
+
+    .ruler-btn {
+      background: #9b59b6;
+    }
+
+    .ruler-btn:hover {
+      background: #8e44ad;
+    }
+
+    .ruler-btn.active {
+      background: #27ae60;
+    }
+
+    .restore-btn {
+      background: #e74c3c;
+    }
+
+    .restore-btn:hover {
+      background: #c0392b;
+    }
+
+    .font-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .font-size-btn {
+      background: #3498db;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .font-size-btn:hover {
+      background: #2980b9;
+    }
+
+    .font-size-display {
+      background: #ecf0f1;
+      padding: 5px 10px;
+      border-radius: 4px;
+      min-width: 40px;
+      text-align: center;
+      font-size: 12px;
+      color: #333;
+    }
+
+    .font-family-select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background: white;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .ruler-color-controls {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 10px;
+      align-items: center;
+    }
+
+    .color-option {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 3px solid transparent;
+      transition: border-color 0.3s;
+    }
+
+    .color-option.selected {
+      border-color: #333;
+    }
+
+    .color-yellow { background: #ffeb3b; }
+    .color-blue { background: #2196f3; }
+    .color-green { background: #4caf50; }
+    .color-purple { background: #9c27b0; }
+    .color-red { background: #f44336; }
+    .color-orange { background: #ff9800; }
+
+    .status {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .font-preview {
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #dee2e6;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .ruler-controls {
+      display: none;
+      margin-top: 10px;
+    }
+
+    .ruler-controls.active {
+      display: block;
+    }
+
+    .control-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🧠 Neuro Focus</h1>
+    <p>Distraction-free browsing & reading aids</p>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Ad Blocker</label>
+    <label class="toggle-switch">
+      <input type="checkbox" id="toggle">
+      <span class="slider"></span>
+    </label>
+    <span id="adBlockStatus" class="status">Loading...</span>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Font Settings</label>
+
+    <select id="fontFamily" class="font-family-select">
+      <option value="Georgia, serif">Georgia (Classic Serif)</option>
+      <option value="Arial, sans-serif">Arial (Clean Sans)</option>
+      <option value="OpenDyslexic, Arial, sans-serif">OpenDyslexic (Dyslexia-Friendly)</option>
+      <option value="Verdana, sans-serif">Verdana (Easy Reading)</option>
+      <option value="Times New Roman, serif">Times New Roman</option>
+      <option value="Helvetica, Arial, sans-serif">Helvetica</option>
+    </select>
+
+    <div class="font-controls">
+      <button id="decreaseFont" class="font-size-btn" title="Decrease font size">−</button>
+      <div class="font-size-display">
+        <span id="fontSizeDisplay">18px</span>
+      </div>
+      <button id="increaseFont" class="font-size-btn" title="Increase font size">+</button>
+    </div>
+
+    <div id="fontPreview" class="font-preview">
+      Sample text: The quick brown fox jumps over the lazy dog.
+    </div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Dyslexia Reading Ruler</label>
+    <button id="rulerBtn" class="ruler-btn">
+      📏 Enable Reading Ruler
+    </button>
+
+    <div id="rulerControls" class="ruler-controls">
+      <div class="control-row">
+        <span style="font-size: 12px; color: #666;">Color:</span>
+        <div class="ruler-color-controls">
+          <div class="color-option color-yellow selected" data-color="#ffeb3b" title="Yellow"></div>
+          <div class="color-option color-blue" data-color="#2196f3" title="Blue"></div>
+          <div class="color-option color-green" data-color="#4caf50" title="Green"></div>
+          <div class="color-option color-purple" data-color="#9c27b0" title="Purple"></div>
+          <div class="color-option color-red" data-color="#f44336" title="Red"></div>
+          <div class="color-option color-orange" data-color="#ff9800" title="Orange"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="status">Highlights the current line to aid reading focus</div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Reading Mode</label>
+    <button id="readingModeBtn" class="reading-mode-btn">
+      📖 Enable Focus Mode
+    </button>
+    <div class="status">Removes distractions and improves readability</div>
+  </div>
+
+  <div class="control-group">
+    <label class="control-label">Restore Page</label>
+    <button id="restoreBtn" class="restore-btn">
+      🔄 Restore Page
+    </button>
+    <div class="status">Return page to original appearance</div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
