@@ -12,13 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const colorOptions = document.querySelectorAll(".color-option");
   const restoreBtn = document.getElementById("restoreBtn");
 
-  // Default settings
   let currentFontSize = 18;
   let currentFontFamily = "Georgia, serif";
   let rulerEnabled = false;
   let rulerColor = "#ffeb3b";
 
-  // Load all saved settings
   chrome.storage.sync.get([
     "adBlockEnabled",
     "fontSize",
@@ -26,26 +24,22 @@ document.addEventListener("DOMContentLoaded", () => {
     "dyslexiaRulerEnabled",
     "rulerColor"
   ], (data) => {
-    // Ad block setting
     const adBlockEnabled = data.adBlockEnabled ?? true;
     toggle.checked = adBlockEnabled;
     updateAdBlockStatus(adBlockEnabled);
 
-    // Font settings
     currentFontSize = data.fontSize || 18;
-    currentFontFamily = data.fontFamily || "Georgia, serif";
+    currentFontFamily = data.fontFamily || "Georgia, serif";  //Set default settings here
     fontSizeDisplay.textContent = currentFontSize + "px";
     fontFamily.value = currentFontFamily;
     updateFontPreview();
 
-    // Ruler settings
     rulerEnabled = data.dyslexiaRulerEnabled || false;
     rulerColor = data.rulerColor || "#ffeb3b";
     updateRulerUI();
     updateColorSelection();
   });
 
-  // Handle ad block toggle
   toggle.addEventListener("change", () => {
     const enabled = toggle.checked;
 
@@ -61,14 +55,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Handle font family change
   fontFamily.addEventListener("change", () => {
     currentFontFamily = fontFamily.value;
     chrome.storage.sync.set({ fontFamily: currentFontFamily });
     updateFontPreview();
   });
 
-  // Handle font size increase
   increaseFont.addEventListener("click", () => {
     if (currentFontSize < 32) {
       currentFontSize += 2;
@@ -76,7 +68,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Handle font size decrease
   decreaseFont.addEventListener("click", () => {
     if (currentFontSize > 12) {
       currentFontSize -= 2;
@@ -84,7 +75,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Handle dyslexia ruler toggle
   rulerBtn.addEventListener("click", async () => {
     try {
       const [tab] = await chrome.tabs.query({
@@ -104,19 +94,16 @@ document.addEventListener("DOMContentLoaded", () => {
         rulerColor: rulerColor
       });
 
-      // Send message to content script
       chrome.tabs.sendMessage(tab.id, {
         action: "toggleDyslexiaRuler",
         enabled: rulerEnabled,
         color: rulerColor
       }, (response) => {
         if (chrome.runtime.lastError) {
-          // If content script not loaded, inject it first
           chrome.scripting.executeScript({
             target: { tabId: tab.id },
             files: ["dyslexiaRuler.js"]
           }).then(() => {
-            // Retry sending message
             setTimeout(() => {
               chrome.tabs.sendMessage(tab.id, {
                 action: "toggleDyslexiaRuler",
@@ -136,7 +123,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Handle color selection
   colorOptions.forEach(colorOption => {
     colorOption.addEventListener("click", async () => {
       const newColor = colorOption.dataset.color;
@@ -145,7 +131,6 @@ document.addEventListener("DOMContentLoaded", () => {
       chrome.storage.sync.set({ rulerColor: rulerColor });
       updateColorSelection();
 
-      // Update ruler color in content script if active
       if (rulerEnabled) {
         try {
           const [tab] = await chrome.tabs.query({
@@ -164,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Handle reading mode button
   readingModeBtn.addEventListener("click", async () => {
     try {
       const [tab] = await chrome.tabs.query({
@@ -178,13 +162,11 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // First inject the CSS file
       await chrome.scripting.insertCSS({
         target: { tabId: tab.id },
         files: ["readingMode.css"]
       });
 
-      // Then inject custom font settings
       const customCSS = `
         html, body {
           font-family: ${currentFontFamily} !important;
@@ -207,7 +189,6 @@ document.addEventListener("DOMContentLoaded", () => {
         css: customCSS
       });
 
-      // Update button to show success
       readingModeBtn.textContent = "✅ Focus Mode Applied!";
       readingModeBtn.style.background = "#27ae60";
 
@@ -222,7 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Handle restore page button
   restoreBtn.addEventListener("click", async () => {
     try {
       const [tab] = await chrome.tabs.query({
@@ -236,7 +216,6 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Send message to content script to restore page
       chrome.tabs.sendMessage(tab.id, {
         action: "restorePage"
       }, (response) => {
@@ -244,7 +223,6 @@ document.addEventListener("DOMContentLoaded", () => {
           console.error("Error restoring page:", chrome.runtime.lastError);
           showRestoreError("Could not restore page");
         } else {
-          // Show success feedback
           restoreBtn.textContent = "✅ Page Restored!";
           restoreBtn.style.background = "#27ae60";
 
@@ -261,7 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Helper functions
   function updateFontSize() {
     fontSizeDisplay.textContent = currentFontSize + "px";
     chrome.storage.sync.set({ fontSize: currentFontSize });

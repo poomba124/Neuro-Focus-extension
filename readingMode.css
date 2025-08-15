@@ -1,8 +1,3 @@
-/* =====================================================
-   NEURO FOCUS - ENHANCED READING MODE WITH FONT CONTROLS
-   ===================================================== */
-
-/* Base readability improvements - font settings will be overridden by JS */
 html, body {
   font-family: Georgia, "Times New Roman", Times, serif !important;
   font-size: 18px !important;
@@ -13,7 +8,6 @@ html, body {
   padding: 20px !important;
 }
 
-/* Make main content area more readable */
 main, article, .article, .post, .content, [role="main"] {
   max-width: 65ch !important;
   margin: 0 auto !important;
@@ -26,7 +20,6 @@ main, article, .article, .post, .content, [role="main"] {
   font-size: inherit !important;
 }
 
-/* Only hide elements that are clearly ads or promotional */
 .ad, .ads, .advertisement, .ad-banner, .ad-container,
 .sponsor, .sponsored, .promo, .promotion, .promotions,
 .newsletter-signup, .email-signup, .subscribe,
@@ -38,7 +31,6 @@ iframe[src*="doubleclick"], iframe[src*="googlesyndication"] {
   display: none !important;
 }
 
-/* Improve heading typography - maintain relative sizing */
 h1, h2, h3, h4, h5, h6 {
   color: #1a1a1a !important;
   font-weight: bold !important;
@@ -74,7 +66,6 @@ h5, h6 {
   color: #34495e !important;
 }
 
-/* Improve paragraph and text readability */
 p, div, span, li, td, th {
   margin: 1em 0 !important;
   text-align: left !important;
@@ -83,7 +74,6 @@ p, div, span, li, td, th {
   line-height: 1.7 !important;
 }
 
-/* Special handling for lists to maintain proper spacing */
 ul, ol {
   margin: 1em 0 !important;
   padding-left: 2em !important;
@@ -94,7 +84,6 @@ li {
   line-height: 1.6 !important;
 }
 
-/* Style code blocks and inline code */
 code {
   background: #f8f9fa !important;
   padding: 2px 6px !important;
@@ -116,7 +105,6 @@ pre {
   line-height: 1.4 !important;
 }
 
-/* Style blockquotes */
 blockquote {
   border-left: 4px solid #3498db !important;
   padding: 15px 20px !important;
@@ -127,7 +115,6 @@ blockquote {
   font-family: inherit !important;
 }
 
-/* Style links for better readability */
 a {
   color: #2980b9 !important;
   text-decoration: underline !important;
@@ -138,7 +125,6 @@ a:hover {
   color: #3498db !important;
 }
 
-/* Improve table styling */
 table {
   width: 100% !important;
   border-collapse: collapse !important;
@@ -158,7 +144,6 @@ th {
   font-weight: bold !important;
 }
 
-/* Keep images but make them responsive */
 img {
   max-width: 100% !important;
   height: auto !important;
@@ -168,7 +153,6 @@ img {
   box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
 }
 
-/* Remove distracting animations and effects */
 *, *:before, *:after {
   animation-duration: 0s !important;
   animation-delay: 0s !important;
@@ -176,18 +160,15 @@ img {
   transition-delay: 0s !important;
 }
 
-/* Focus indicator for accessibility */
 :focus {
   outline: 2px solid #3498db !important;
   outline-offset: 2px !important;
 }
 
-/* Ensure all text is visible and readable */
 * {
   text-shadow: none !important;
 }
 
-/* Add a subtle indicator that reading mode is active */
 body::before {
   content: "🧠 Neuro Focus Reading Mode Active";
   position: fixed;
