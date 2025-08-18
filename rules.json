@@ -88,16 +88,5 @@
     "condition": {
       "urlFilter": "*://*media.net/*"
     }
-  },
-  {
-    "id": 10,
-    "priority": 1,
-    "action": {
-      "type": "block"
-    },
-    "condition": {
-      "urlFilter": "*ads*",
-      "resourceTypes": ["image", "script", "sub_frame"]
-    }
   }
 ]
