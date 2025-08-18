@@ -8,7 +8,12 @@ html, body {
   padding: 20px !important;
 }
 
-main, article, .article, .post, .content, [role="main"] {
+.article-body, 
+.story-content,
+.article-content,
+main[role="main"],
+article .content,
+article {
   max-width: 65ch !important;
   margin: 0 auto !important;
   padding: 40px 20px !important;
@@ -20,7 +25,7 @@ main, article, .article, .post, .content, [role="main"] {
   font-size: inherit !important;
 }
 
-.ad, .ads, .advertisement, .ad-banner, .ad-container,
+header, footer, nav, aside, .ad, .ads, .advertisement, .ad-banner, .ad-container,
 .sponsor, .sponsored, .promo, .promotion, .promotions,
 .newsletter-signup, .email-signup, .subscribe,
 .social-share, .share-buttons, .social-buttons,
@@ -29,6 +34,18 @@ main, article, .article, .post, .content, [role="main"] {
 [class*="sponsor"], [class*="promo"], [class*="banner"],
 iframe[src*="doubleclick"], iframe[src*="googlesyndication"] {
   display: none !important;
+}
+
+
+body > div, 
+body > section {
+  display: block !important;    
+  width: auto !important;       
+  max-width: none !important;   
+  margin: 0 !important;
+  padding: 0 !important;
+  float: none !important;       
+  position: static !important; 
 }
 
 h1, h2, h3, h4, h5, h6 {
