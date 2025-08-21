@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", () => {
     updateAdBlockStatus(adBlockEnabled);
 
     currentFontSize = data.fontSize || 18;
-    currentFontFamily = data.fontFamily || "Georgia, serif";  //Set default settings here
+    currentFontFamily = data.fontFamily || "Georgia, serif";  
     fontSizeDisplay.textContent = currentFontSize + "px";
     fontFamily.value = currentFontFamily;
     updateFontPreview();
@@ -203,8 +203,6 @@ document.addEventListener("DOMContentLoaded", () => {
       showError("Could not apply reading mode");
     }
   });
-
-  // Add this code inside the DOMContentLoaded listener in popup.js
 
   if (stopBtn) {
     stopBtn.addEventListener("click", () => {

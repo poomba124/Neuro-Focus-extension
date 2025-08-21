@@ -145,18 +145,20 @@ class DyslexiaRuler {
     this.rulerColor = color;
 
     if (this.ruler) {
-      this.ruler.style.background = `linear-gradient(to bottom, 
+      const backgroundValue = `linear-gradient(to bottom, 
         transparent 0%, 
         ${color}${Math.round(this.rulerOpacity * 255).toString(16).padStart(2, '0')} 20%, 
         ${color}${Math.round(this.rulerOpacity * 255).toString(16).padStart(2, '0')} 80%, 
         transparent 100%)`;
+      
+      this.ruler.style.setProperty('background', backgroundValue, 'important');
+      
       this.ruler.style.borderTop = `1px solid ${color}80`;
       this.ruler.style.borderBottom = `1px solid ${color}80`;
       this.ruler.style.boxShadow = `0 0 10px ${color}40`;
     }
   }
 
-  // NEW: Restore page functionality
   restorePage() {
     try {
       location.reload();
