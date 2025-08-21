@@ -28,3 +28,25 @@ function updateAdBlockRules(enabled) {
     });
   }
 }
+
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.contextMenus.create({
+    id: "neuro-focus-read-aloud",
+    title: "Read selected text",
+    contexts: ["selection"]  
+  });
+});
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (info.menuItemId === "neuro-focus-read-aloud") {
+    if (info.selectionText) {
+      chrome.tts.speak(info.selectionText, { 'rate': 1.0 });
+    }
+  }
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "stopReading") {
+    chrome.tts.stop();
+  }
+});

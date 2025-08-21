@@ -22,12 +22,22 @@ html, body {
   padding: 20px !important;
 }
 
-main, article, .article-body, .story-content, .article-content {
+/* Re-apply styles ONLY to the main container, with new selectors for complex/live sites */
+main,
+article,
+[role="main"],                  /* Standard for main content */
+.article-body,
+.story-content,
+.article-content,
+div[class*="live-blog"],        /* Targets containers for live blogs */
+div[class*="LiveBlogWrapper"],  /* A common pattern for wrappers */
+div[data-component="live-stream-wrapper"] /* Targets modern component-based sites */
+{
   display: block !important;
   max-width: 65ch !important;
-  margin: 0 auto !important; /* This now works because parent layouts are reset */
+  margin: 40px auto !important; /* Added vertical margin for better spacing */
   padding: 40px 20px !important;
-  background: #fff !important; /* Re-apply the white background here */
+  background: #fff !important;
   color: #333 !important;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1) !important;
   border-radius: 8px !important;
@@ -207,3 +217,4 @@ body::before {
   z-index: 999999;
   font-family: Arial, sans-serif !important;
 }
+

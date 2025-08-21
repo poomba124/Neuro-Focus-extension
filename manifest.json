@@ -8,7 +8,9 @@
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess",
     "activeTab",
-    "scripting"
+    "scripting",
+    "tts",
+    "contextMenus"
   ],
   "host_permissions": ["<all_urls>"],
   "background": {

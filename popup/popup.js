@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const rulerControls = document.getElementById("rulerControls");
   const colorOptions = document.querySelectorAll(".color-option");
   const restoreBtn = document.getElementById("restoreBtn");
+  const stopBtn = document.getElementById("stopBtn");
 
   let currentFontSize = 18;
   let currentFontFamily = "Georgia, serif";
@@ -202,6 +203,14 @@ document.addEventListener("DOMContentLoaded", () => {
       showError("Could not apply reading mode");
     }
   });
+
+  // Add this code inside the DOMContentLoaded listener in popup.js
+
+  if (stopBtn) {
+    stopBtn.addEventListener("click", () => {
+      chrome.runtime.sendMessage({ action: "stopReading" });
+    });
+  }
 
   restoreBtn.addEventListener("click", async () => {
     try {
